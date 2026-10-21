@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客管理后台</title>
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+    <!--@IF_NOT_LOGGED_BEGIN@-->
+    <div class="login-box">
+        <h2>博客管理后台</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="password" required>
+            </div>
+            <div id="loginStatus" class="status"></div>
+            <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+    </div>
+    <script src="/admin/login.js"></script>
+    <!--@IF_NOT_LOGGED_ELSE@-->
+    <div class="container">
+        <div class="header">
+            <h1>博客管理后台</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary btn-sm" onclick="rebuildSite()">重建站点</button>
+                <button class="btn btn-danger btn-sm" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('articles')">笔记管理</button>
+            <button class="tab" onclick="switchTab('upload')">上传笔记</button>
+            <button class="tab" onclick="switchTab('messages')">留言管理</button>
+            <button class="tab" onclick="switchTab('about')">关于我管理</button>
+            <button class="tab" onclick="switchTab('gallery')">相册管理</button>
+        </div>
+
+        <div class="content">
+            <div id="status" class="status"></div>
+
+            <div id="articlesTab" class="tab-content active">
+                <div class="series-toolbar">
+                    <button class="btn btn-primary btn-sm" onclick="showCreateSeriesModal()">新建系列</button>
+                </div>
+                <div id="articlesList"></div>
+            </div>
+
+            <div id="uploadTab" class="tab-content">
+                <div class="upload-form" id="uploadForm">
+                    <div class="form-group">
+                        <label>选择分类</label>
+                        <select id="uploadCategory" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>选择文件夹</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-label" id="uploadFolderLabel">点击选择文件夹（自动扫描 Markdown 和图片）</div>
+                            <input type="file" id="uploadFolderInput" webkitdirectory directory onchange="handleUploadFolder(this)">
+                        </div>
+                        <div class="file-list" id="uploadFolderFileList"></div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="doUploadFolder()">上传</button>
+                </div>
+            </div>
+
+            <div id="messagesTab" class="tab-content">
+                <div id="messagesList"></div>
+            </div>
+
+            <div id="aboutTab" class="tab-content">
+                <div class="upload-form">
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" id="aboutName" placeholder="你的名字">
+                    </div>
+                    <div class="form-group">
+                        <label>个人介绍（每行一段）</label>
+                        <textarea id="aboutTexts" rows="8" placeholder="每行输入一段介绍文字"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="saveAbout()">保存</button>
+                </div>
+            </div>
+
+            <div id="galleryTab" class="tab-content">
+                <div class="upload-form">
+                    <div class="form-group">
+                        <label>选择图片</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-label" id="galleryFileLabel">点击选择图片（可多选）</div>
+                            <input type="file" id="galleryFileInput" accept="image/*" multiple onchange="handleGalleryFile(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>图片描述（可选）</label>
+                        <input type="text" id="galleryAltInput" placeholder="输入图片描述">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="uploadGalleryImage()">上传</button>
+                </div>
+                <div id="galleryList" style="display:flex;flex-wrap:wrap;gap:15px;margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <h3>确认删除</h3>
+            <p id="deleteMessage"></p>
+            <div id="deleteOptions" class="modal-options"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-sm" onclick="closeModal()">取消</button>
+                <button class="btn btn-danger btn-sm" id="confirmDeleteBtn">确认删除</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editSeriesModal">
+        <div class="modal">
+            <h3>编辑系列</h3>
+            <div class="form-group">
+                <label>系列名称</label>
+                <input type="text" id="editSeriesName" required>
+            </div>
+            <div class="form-group">
+                <label>系列描述</label>
+                <textarea id="editSeriesDesc" rows="3" placeholder="显示在文章页面系列名下方的描述"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-sm" onclick="closeEditModal()">取消</button>
+                <button class="btn btn-primary btn-sm" id="confirmEditBtn">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="createSeriesModal">
+        <div class="modal">
+            <h3>新建系列</h3>
+            <div class="form-group">
+                <label>系列名称</label>
+                <input type="text" id="newSeriesName" required>
+            </div>
+            <div class="form-group">
+                <label>系列描述</label>
+                <input type="text" id="newSeriesDesc" placeholder="可选">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-sm" onclick="closeCreateModal()">取消</button>
+                <button class="btn btn-primary btn-sm" id="confirmCreateBtn">创建</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/admin-core.js"></script>
+    <script src="/admin/admin-series.js"></script>
+    <script src="/admin/admin-content.js"></script>
+    <!--@IF_NOT_LOGGED_END@-->
+</body>
+</html>

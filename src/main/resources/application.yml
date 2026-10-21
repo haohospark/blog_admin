@@ -1,0 +1,20 @@
+server:
+  port: 5050
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: blog_admin
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+
+blog:
+  # 数据根目录：未配置时默认代码所在的模块目录（见 BlogProperties）
+  admin-username: user
+  admin-password: "123"

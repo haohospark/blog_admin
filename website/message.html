@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="icon" href="images/favicon.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="css/base.css?v=1790917320">
+    <link rel="stylesheet" href="css/pages.css?v=1790917320">
+    <link rel="stylesheet" href="css/responsive.css?v=1790917320">
+    <link rel="stylesheet" href="css/theme-light.css?v=1790917320">
+    <script src="js/theme-toggle.js?v=1790917320"></script>
+    <style>
+        .msg-status { padding: 12px 16px; border-radius: 6px; margin-top: 12px; display: none; font-size: 14px; }
+        .msg-status.success { display: block; background: #1c2a1e; color: #8fd89f; border: 1px solid #2e4d33; }
+        .msg-status.error { display: block; background: #2b1c1e; color: #ff9a9a; border: 1px solid #4d2e33; }
+        .msg-status.info { display: block; background: #1a2536; color: #8ec0ff; border: 1px solid #2e4160; }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .messages-section { margin-top: 40px; }
+        .messages-section h2 { margin-bottom: 24px; }
+        .message-card { background: #1f232b; border: 1px solid #2c313b; border-radius: 8px; padding: 20px; margin-bottom: 16px; transition: box-shadow 0.3s; }
+        .message-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+        .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .message-name { font-weight: 600; font-size: 16px; color: #eef2f8; }
+        .message-time { font-size: 13px; color: #7d8794; }
+        .message-content { color: #b7c0cc; line-height: 1.6; word-break: break-word; }
+        .no-messages { text-align: center; color: #7d8794; padding: 40px 0; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <canvas id="bg-particles"></canvas>
+    <header class="clearfix">
+        <div class="container">
+            <div class="logo">云山蓝的博客</div>
+            <button class="menu-toggle" onclick="this.parentElement.querySelector('nav').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="articles.html">文章</a></li>
+                    <li><a href="gallery.html">相册</a></li>
+                    <li><a href="message.html" class="active">留言</a></li>
+					<li><a href="about.html">关于我</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="banner" style="background-image: url('images/picture_7.jpg');">
+        <div class="banner-content">
+            <h2>留言板</h2>
+            <p>留下你的足迹，分享你的想法</p>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container">
+            <h2 class="section-title">给我留言</h2>
+            <div class="message-form">
+                <div class="form-group">
+                    <label>你的姓名</label>
+                    <input type="text" id="msgName" placeholder="请输入姓名">
+                </div>
+                <div class="form-group">
+                    <label>你的留言</label>
+					<textarea id="msgContent"
+						rows="5"
+						placeholder="请输入留言内容"
+						style="resize: none;"
+					></textarea>
+                </div>
+                <button class="submit-btn" id="submitBtn" onclick="submitMessage()">提交留言</button>
+                <div class="msg-status" id="msgStatus"></div>
+            </div>
+
+            <div class="messages-section">
+                <h2 class="section-title">全部留言</h2>
+                <div id="messagesList">
+                    <div class="no-messages">加载中...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="cpYear">2026</span> 云山蓝的博客 版权所有</p>
+            <p><a href="https://beian.miit.gov.cn/" target="_blank">ICP备00000000号-1</a></p>
+        </div>
+    </footer>
+    <script>document.getElementById("cpYear").textContent = new Date().getFullYear();</script>
+
+    <script>
+        function showMsgStatus(msg, type) {
+            const el = document.getElementById('msgStatus');
+            el.className = 'msg-status ' + type;
+            el.textContent = msg;
+            if (type === 'success') {
+                setTimeout(() => { el.className = 'msg-status'; }, 3000);
+            }
+        }
+
+        async function loadMessages() {
+            try {
+                const res = await fetch('/api/messages/public');
+                const messages = await res.json();
+                const container = document.getElementById('messagesList');
+                if (!messages.length) {
+                    container.innerHTML = '<div class="no-messages">暂无留言，快来抢沙发吧！</div>';
+                    return;
+                }
+                container.innerHTML = messages.map(m => `
+                    <div class="message-card">
+                        <div class="message-header">
+                            <span class="message-name">${escapeHtml(m.name)}</span>
+                            <span class="message-time">${escapeHtml(m.time)}</span>
+                        </div>
+                        <div class="message-content">${escapeHtml(m.content)}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                document.getElementById('messagesList').innerHTML = '<div class="no-messages">加载留言失败</div>';
+            }
+        }
+
+        async function submitMessage() {
+            const name = document.getElementById('msgName').value.trim();
+            const content = document.getElementById('msgContent').value.trim();
+            if (!name) {
+                showMsgStatus('请输入姓名', 'error');
+                return;
+            }
+            if (!content) {
+                showMsgStatus('请输入留言内容', 'error');
+                return;
+            }
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            showMsgStatus('正在提交...', 'info');
+            try {
+                const res = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, content })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showMsgStatus('留言提交成功！', 'success');
+                    document.getElementById('msgName').value = '';
+                    document.getElementById('msgContent').value = '';
+                    await loadMessages();
+                } else {
+                    showMsgStatus(data.error || '提交失败', 'error');
+                }
+            } catch (e) {
+                showMsgStatus('请求失败: ' + e.message, 'error');
+            }
+            btn.disabled = false;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadMessages();
+    </script>
+    <div class="float-tools">
+        <button id="back-to-top" class="float-btn" type="button" aria-label="回到顶部" title="回到顶部">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+        <button id="theme-toggle" class="float-btn theme-toggle-btn" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+    </div>
+    <script src="js/bg-particles.js?v=1790917320"></script>
+    <script src="js/float-tools.js?v=1790917320"></script>
+
+</body>
+</html>

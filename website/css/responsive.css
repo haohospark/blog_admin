@@ -1,0 +1,341 @@
+/* 响应式适配：平板(<=1024px)、手机(<=768px)、小屏手机(<=480px) */
+
+/* 平板适配 (<=1024px) */
+@media screen and (max-width: 1024px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .banner h2 {
+        font-size: 36px;
+    }
+
+    .banner p {
+        font-size: 18px;
+    }
+
+    .card {
+        width: 300px;
+    }
+
+    .gallery {
+        gap: 15px;
+    }
+
+    .gallery-img {
+        height: 250px;
+    }
+
+    .about-info {
+        gap: 30px;
+        padding: 30px;
+    }
+
+    .avatar {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* 手机适配 (<=768px) */
+@media screen and (max-width: 768px) {
+    /* 顶行右侧只留汉堡菜单（主题切换已移到右下角悬浮组），菜单展开时不悬浮在菜单中间；
+       顶行顺序 logo -> 汉堡，菜单（order 3）整行换到下方 */
+    .menu-toggle {
+        display: block;
+        position: static;
+        transform: none;
+        /* auto 外边距把汉堡推到顶行最右 */
+        margin-left: auto;
+        order: 1;
+    }
+
+    header {
+        position: relative;
+    }
+
+    header .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    nav {
+        float: none;
+        display: none;
+        width: 100%;
+        order: 3;
+        /* 桌面端的 auto 会与按钮的 auto 抢空间并把菜单挤到第二行，移动端必须清掉 */
+        margin-left: 0;
+        padding-top: 10px;
+    }
+
+    nav.open {
+        display: block;
+    }
+
+    nav ul li {
+        display: block;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 10px 12px;
+    }
+
+    .banner {
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+        padding: 60px 20px 40px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .banner-content {
+        text-align: center;
+        width: 100%;
+    }
+
+    .banner h2 {
+        font-size: 28px;
+    }
+
+    .banner p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .card-box {
+        gap: 20px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-img {
+        height: 250px;
+    }
+
+    .about-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px;
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+    }
+
+    .about-text h3 {
+        font-size: 24px;
+    }
+
+    .message-form {
+        padding: 25px;
+    }
+
+    .content {
+        padding: 40px 0;
+    }
+
+    /* 右下角悬浮工具组：手机端贴边并略缩小，避免挡住正文 */
+    .float-tools {
+        right: 14px;
+        bottom: 18px;
+    }
+
+    .float-tools .float-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .article-content {
+        padding: 24px 20px;
+        font-size: 15px;
+    }
+
+    .article-content h1 {
+        font-size: 1.6em;
+    }
+
+    .article-content h2 {
+        font-size: 1.35em;
+    }
+
+    .article-content h3 {
+        font-size: 1.2em;
+    }
+
+    .article-content pre {
+        padding: 14px 16px;
+        font-size: 13px;
+    }
+
+    .article-content .code-block .code-lines {
+        padding: 14px 78px 14px 12px;
+    }
+
+    .article-content .code-block .lang-label + pre .code-lines {
+        padding-top: 46px;
+    }
+
+    .article-content .line-numbers {
+        font-size: 13px;
+        padding: 14px 8px 14px 12px;
+    }
+
+    .article-content .line-numbers.under-label {
+        padding-top: 46px;
+    }
+
+    .article-content .copy-btn {
+        top: 8px;
+        right: 8px;
+        padding: 3px 10px;
+        font-size: 11px;
+    }
+
+    .article-content table {
+        font-size: 14px;
+    }
+
+    .article-content table th,
+    .article-content table td {
+        padding: 6px 10px;
+    }
+
+    .section-desc {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+}
+
+/* 小屏手机 (<=480px) */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header {
+        padding: 15px 0;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .banner {
+        height: 250px;
+    }
+
+    .banner h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .banner p {
+        font-size: 14px;
+    }
+
+    .section-title {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-body h3 {
+        font-size: 18px;
+    }
+
+    .gallery-img {
+        height: 200px;
+    }
+
+    .about-info {
+        padding: 20px;
+    }
+
+    .about-text p {
+        font-size: 14px;
+    }
+
+    .message-form {
+        padding: 20px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .article-content {
+        padding: 16px 12px;
+        font-size: 14px;
+    }
+
+    .article-content h1 {
+        font-size: 1.4em;
+    }
+
+    .article-content pre {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .article-content .code-block .code-lines {
+        padding: 12px 68px 12px 10px;
+    }
+
+    .article-content .code-block .lang-label + pre .code-lines {
+        padding-top: 40px;
+    }
+
+    .article-content .line-numbers {
+        font-size: 12px;
+        padding: 12px 6px 12px 8px;
+    }
+
+    .article-content .line-numbers.under-label {
+        padding-top: 40px;
+    }
+
+    .article-content .code-block .lang-label {
+        top: 8px;
+        left: 8px;
+    }
+
+    .article-content .copy-btn {
+        top: 8px;
+        right: 8px;
+    }
+
+    footer {
+        padding: 20px 0;
+    }
+
+    footer p {
+        font-size: 14px;
+    }
+}

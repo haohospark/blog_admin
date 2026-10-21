@@ -1,0 +1,398 @@
+/* 博客基础样式：全局重置、字体声明、导航、banner、卡片、页脚 */
+
+/* 代码字体：自托管 JetBrains Mono 拉丁子集，避免依赖用户本机字体 */
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/jetbrains-mono-latin-400-italic.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", sans-serif;
+}
+
+/* 暗色主题配色基准：
+   页面底 #15171c / 卡片面 #1f232b / 导航页脚 #101216
+   正文 #d8dde5 / 标题 #eef2f8 / 次级 #98a1ad / 边框 #2c313b / 主色 #4da3e0 */
+body {
+    background-color: #15171c;
+    color: #d8dde5;
+    line-height: 1.6;
+    /* body 建立层叠上下文，使 z-index:-1 的粒子画布位于页面背景之上、正文之下 */
+    position: relative;
+    z-index: 0;
+}
+
+/* 背景粒子连线特效画布（bg-particles.js），所有页面通用 */
+#bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 头部导航样式 */
+header {
+    background-color: #101216;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    /* 高于正文中定位元素（如代码块容器），避免滚动时遮挡导航 */
+    z-index: 1000;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+header .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .container::after {
+    display: none;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-block;
+    /* CSS变形 */
+    transform: skewX(-5deg);
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: skewX(5deg) scale(1.05);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+nav {
+    float: right;
+    /* DOM 中按钮在 nav 之前，桌面端用 order 让导航先靠右、按钮排在其右侧 */
+    margin-left: auto;
+    order: 1;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+nav ul li a {
+    /* 导航菜单文字：暗底上保持高对比浅色 */
+    color: #eef2f8;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    /* 过渡效果 */
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    /* 与 .btn 一致的半透明主色风格，避免实心蓝块在暗底上突兀 */
+    background-color: rgba(77, 163, 224, 0.22);
+    color: #cfe9fc;
+    transform: translateY(-3px);
+}
+
+/* 清除浮动 */
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* banner样式 */
+.banner {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 暗色主题下给 banner 背景图压暗，保证白色标题文字可读 */
+.banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(12, 14, 18, 0.62);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 1.5s ease; /* 关键帧动画 */
+}
+
+.banner h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.banner p {
+    font-size: 20px;
+    max-width: 800px;
+}
+
+/* 关键帧动画定义 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 内容区域样式 */
+.content {
+    padding: 60px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 32px;
+    color: #eef2f8;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    width: 80px;
+    height: 3px;
+    background-color: #4da3e0;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 卡片样式 */
+.card-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.card {
+    width: 350px;
+    background: #1f232b;
+    border: 1px solid #2c313b;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.45);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+    border-color: #3a4150;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #eef2f8;
+}
+
+.card-body p {
+    color: #98a1ad;
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    /* 暗色主题下实心亮蓝过于刺眼，改用半透明主色底 + 亮蓝字 */
+    background-color: rgba(77, 163, 224, 0.14);
+    border: 1px solid rgba(77, 163, 224, 0.45);
+    color: #8ecdf5;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: rgba(77, 163, 224, 0.3);
+    border-color: #4da3e0;
+    color: #d6ecfc;
+    transform: translateX(5px);
+}
+
+/* 底部样式 */
+footer {
+    background-color: #101216;
+    color: #dfe6ee;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* 备案信息超链接：暗底上用浅色文字保证可读，悬停提亮 */
+footer a {
+    color: #cfd8e3;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* 文章分类标签 */
+.card-tag {
+    display: inline-block;
+    background-color: rgba(77, 163, 224, 0.16);
+    color: #8ecdf5;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.section-desc {
+    text-align: center;
+    color: #98a1ad;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+/* 主题切换按钮：仅右下角悬浮组一个（导航栏那个已移除），外观由 .float-tools .float-btn 提供。
+   暗色为默认配色，浅色覆盖见 theme-light.css。
+   暗色主题显示太阳图标（点击切到浅色），浅色主题显示月亮图标 */
+.theme-toggle-btn .icon-moon {
+    display: none;
+}
+
+html[data-theme="light"] .theme-toggle-btn .icon-moon {
+    display: block;
+}
+
+html[data-theme="light"] .theme-toggle-btn .icon-sun {
+    display: none;
+}
+
+/* 右下角悬浮工具组：回到顶部 + 主题切换 */
+.float-tools {
+    position: fixed;
+    right: 24px;
+    bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* 高于 header(1000)，滚动时始终可点 */
+    z-index: 1100;
+}
+
+.float-tools .float-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    background-color: rgba(31, 35, 43, 0.9);
+    border: 1px solid #2c313b;
+    border-radius: 50%;
+    color: #eef2f8;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.float-tools .float-btn:hover {
+    border-color: #4da3e0;
+    color: #8ecdf5;
+    transform: translateY(-3px);
+}
+
+/* 回到顶部：页面在顶部时隐藏，向下滚动后由 float-tools.js 加 .visible 淡入 */
+#back-to-top {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}

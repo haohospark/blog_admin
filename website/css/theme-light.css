@@ -1,0 +1,341 @@
+/* 浅色主题覆盖层：暗色为默认配色，<html data-theme="light"> 时用本文件把配色切回原浅色方案。
+   所有规则以 html[data-theme="light"] 前缀提升优先级，可稳定覆盖主样式与页面内联样式 */
+
+/* ===== base.css 覆盖 ===== */
+html[data-theme="light"] body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+html[data-theme="light"] header {
+    background-color: #2c3e50;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+html[data-theme="light"] nav ul li a {
+    color: white;
+}
+
+html[data-theme="light"] nav ul li a:hover,
+html[data-theme="light"] nav ul li a.active {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .banner::before {
+    background: transparent;
+}
+
+html[data-theme="light"] .section-title {
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .section-title::after {
+    background-color: #3498db;
+}
+
+html[data-theme="light"] .card {
+    background: white;
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+html[data-theme="light"] .card:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    border-color: transparent;
+}
+
+html[data-theme="light"] .card-body h3 {
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .card-body p {
+    color: #666;
+}
+
+html[data-theme="light"] .btn {
+    background-color: #3498db;
+    border-color: transparent;
+    color: white;
+}
+
+html[data-theme="light"] .btn:hover {
+    background-color: #2980b9;
+    border-color: transparent;
+    color: white;
+}
+
+html[data-theme="light"] footer {
+    background-color: #2c3e50;
+    color: white;
+}
+
+html[data-theme="light"] footer a,
+html[data-theme="light"] footer a:hover {
+    color: white;
+}
+
+html[data-theme="light"] .card-tag {
+    background-color: #3498db;
+    color: white;
+}
+
+html[data-theme="light"] .section-desc {
+    color: #666;
+}
+
+/* 右下角悬浮按钮：浅色下改为白底深字，避免沿用暗色的深底亮字 */
+html[data-theme="light"] .float-tools .float-btn {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-color: #d7dde5;
+    color: #2c3e50;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+html[data-theme="light"] .float-tools .float-btn:hover {
+    border-color: #3498db;
+    color: #2980b9;
+}
+
+/* ===== article.css 覆盖 ===== */
+html[data-theme="light"] .article-content {
+    color: #333;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+html[data-theme="light"] .article-content h1,
+html[data-theme="light"] .article-content h2,
+html[data-theme="light"] .article-content h3,
+html[data-theme="light"] .article-content h4,
+html[data-theme="light"] .article-content h5,
+html[data-theme="light"] .article-content h6 {
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .article-content h1 {
+    border-bottom-color: #eaecef;
+}
+
+html[data-theme="light"] .article-content h2 {
+    border-bottom-color: #eaecef;
+}
+
+html[data-theme="light"] .article-content h6 {
+    color: #999;
+}
+
+html[data-theme="light"] .article-content p {
+    color: #333;
+}
+
+html[data-theme="light"] .article-content a {
+    color: #3498db;
+}
+
+html[data-theme="light"] .article-content a:hover {
+    color: #2980b9;
+    border-bottom-color: #2980b9;
+}
+
+html[data-theme="light"] .article-content code {
+    background-color: #f3f4f6;
+    color: #e74c3c;
+    border-color: #e5e7eb;
+}
+
+/* 行内代码规则选择器为 html[attr] .article-content code（0-2-2），优先级高于 article.css 里的
+   .article-content pre code（0-2-1），会把代码块整体刷成浅灰底红字，故浅色下必须同样加权重置一遍；
+   代码块在两种主题下都保持 One Dark 深色底 */
+html[data-theme="light"] .article-content pre code {
+    display: block;
+    background: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+html[data-theme="light"] .article-content pre a,
+html[data-theme="light"] .article-content pre a:hover {
+    color: inherit;
+    border-bottom: none;
+}
+
+html[data-theme="light"] .article-content blockquote {
+    border-left-color: #d0d7de;
+    background-color: #f6f8fa;
+    color: #6a737d;
+}
+
+html[data-theme="light"] .article-content blockquote p {
+    color: #6a737d;
+}
+
+html[data-theme="light"] .article-content table th,
+html[data-theme="light"] .article-content table td {
+    border-color: #dfe2e5;
+}
+
+html[data-theme="light"] .article-content table th {
+    background-color: #f6f8fa;
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .article-content table tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+html[data-theme="light"] .article-content table tr:hover {
+    background-color: #f0f7ff;
+}
+
+html[data-theme="light"] .article-content li {
+    color: #333;
+}
+
+html[data-theme="light"] .article-content hr {
+    border-top-color: #eaecef;
+}
+
+html[data-theme="light"] .article-content mark {
+    background-color: #fff3b0;
+    color: #333;
+}
+
+/* ===== pages.css 覆盖 ===== */
+html[data-theme="light"] .about-info {
+    background: white;
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+html[data-theme="light"] .avatar {
+    border-color: #3498db;
+}
+
+html[data-theme="light"] .about-text h3 {
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .about-text p {
+    color: #666;
+}
+
+html[data-theme="light"] .message-form {
+    background: white;
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+html[data-theme="light"] .form-group label {
+    color: #2c3e50;
+}
+
+html[data-theme="light"] .form-group input,
+html[data-theme="light"] .form-group textarea {
+    background-color: #fff;
+    color: #333;
+    border-color: #ddd;
+}
+
+html[data-theme="light"] .form-group input::placeholder,
+html[data-theme="light"] .form-group textarea::placeholder {
+    color: #999;
+}
+
+html[data-theme="light"] .form-group input:focus,
+html[data-theme="light"] .form-group textarea:focus {
+    border-color: #3498db;
+}
+
+html[data-theme="light"] .submit-btn {
+    background-color: #3498db;
+    border-color: transparent;
+    color: white;
+}
+
+html[data-theme="light"] .submit-btn:hover {
+    background-color: #2980b9;
+    border-color: transparent;
+    color: white;
+}
+
+/* ===== 页面内联样式覆盖（文章列表搜索/筛选、留言板状态条与留言卡片） ===== */
+html[data-theme="light"] .search-box input {
+    background: #fff;
+    color: #333;
+    border-color: #e0e0e0;
+}
+
+html[data-theme="light"] .search-box input::placeholder {
+    color: #999;
+}
+
+html[data-theme="light"] .search-box input:focus {
+    border-color: #4CAF50;
+}
+
+html[data-theme="light"] .filter-btn {
+    background: #fff;
+    border-color: #e0e0e0;
+    color: #555;
+}
+
+html[data-theme="light"] .filter-btn:hover {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+html[data-theme="light"] .filter-btn.active {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    color: #fff;
+}
+
+html[data-theme="light"] .card-box.empty::after {
+    color: #999;
+}
+
+html[data-theme="light"] .msg-status.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-color: #a5d6a7;
+}
+
+html[data-theme="light"] .msg-status.error {
+    background: #ffebee;
+    color: #c62828;
+    border-color: #ef9a9a;
+}
+
+html[data-theme="light"] .msg-status.info {
+    background: #e3f2fd;
+    color: #1565c0;
+    border-color: #90caf9;
+}
+
+html[data-theme="light"] .message-card {
+    background: #fff;
+    border-color: #e8e8e8;
+}
+
+html[data-theme="light"] .message-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+html[data-theme="light"] .message-name {
+    color: #333;
+}
+
+html[data-theme="light"] .message-time {
+    color: #999;
+}
+
+html[data-theme="light"] .message-content {
+    color: #555;
+}
+
+html[data-theme="light"] .no-messages {
+    color: #999;
+}

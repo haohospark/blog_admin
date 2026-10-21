@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <link rel="icon" href="images/favicon.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="css/base.css?v=1790917320">
+    <link rel="stylesheet" href="css/responsive.css?v=1790917320">
+    <link rel="stylesheet" href="css/theme-light.css?v=1790917320">
+    <script src="js/theme-toggle.js?v=1790917320"></script>
+</head>
+<body>
+    <canvas id="bg-particles"></canvas>
+    <header class="clearfix">
+        <div class="container">
+            <div class="logo">云山蓝的博客</div>
+            <button class="menu-toggle" onclick="this.parentElement.querySelector('nav').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="articles.html" class="active">文章</a></li>
+                    <li><a href="gallery.html">相册</a></li>
+                    <li><a href="message.html">留言</a></li>
+                    <li><a href="about.html">关于我</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="banner" style="background-image: url('images/picture_4.png');">
+        <div class="banner-content">
+            <h2>我的笔记</h2>
+            <p>知识分享，思想交流</p>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" id="articleSearch" placeholder="搜索笔记..." oninput="filterArticles()">
+            </div>
+            <div class="series-filter">
+                <button class="filter-btn active" data-series="all" onclick="selectSeries('all')">全部</button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="cpYear">2026</span> 云山蓝的博客 版权所有</p>
+            <p><a href="https://beian.miit.gov.cn/" target="_blank">ICP备00000000号-1</a></p>
+        </div>
+    </footer>
+    <script>document.getElementById("cpYear").textContent = new Date().getFullYear();</script>
+
+    <style>
+        .search-box { margin-bottom: 20px; }
+        .search-box input { width: 100%; padding: 15px 20px; background: #1f232b; color: #d8dde5; border: 2px solid #2c313b; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; box-sizing: border-box; }
+        .search-box input::placeholder { color: #626b78; }
+        .search-box input:focus { outline: none; border-color: #4da3e0; }
+        .series-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .filter-btn { padding: 8px 20px; border: 2px solid #2c313b; border-radius: 20px; background: #1f232b; color: #98a1ad; font-size: 14px; cursor: pointer; transition: all 0.3s; }
+        .filter-btn:hover { border-color: #4da3e0; color: #4da3e0; }
+        .filter-btn.active { background: #2e6da4; border-color: #2e6da4; color: #ffffff; }
+        .card.hidden { display: none; }
+        .section-title.hidden, .section-desc.hidden { display: none; }
+        .card-box.empty::after { content: '没有找到匹配的笔记'; display: block; text-align: center; padding: 40px; color: #98a1ad; font-size: 16px; }
+        .article-section.hidden { display: none; }
+        @media (max-width: 768px) { .filter-btn { padding: 6px 14px; font-size: 13px; } }
+    </style>
+
+    <script>
+        let currentSeries = 'all';
+
+        function selectSeries(key) {
+            currentSeries = key;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.series === key);
+            });
+            filterArticles();
+        }
+
+        function filterArticles() {
+            const query = document.getElementById('articleSearch').value.toLowerCase().trim();
+            const allSections = document.querySelectorAll('.article-section');
+
+            allSections.forEach(section => {
+                const seriesKey = section.dataset.series;
+                const seriesMatch = (currentSeries === 'all' || seriesKey === currentSeries);
+
+                if (!seriesMatch) {
+                    section.classList.add('hidden');
+                    return;
+                }
+                section.classList.remove('hidden');
+
+                const box = section.querySelector('.card-box');
+                const cards = box.querySelectorAll('.card:not(.empty-placeholder)');
+                let hasVisible = false;
+
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const desc = card.querySelector('p').textContent.toLowerCase();
+                    const tag = card.querySelector('.card-tag').textContent.toLowerCase();
+                    if (!query || title.includes(query) || desc.includes(query) || tag.includes(query)) {
+                        card.classList.remove('hidden');
+                        hasVisible = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                const titleEl = section.querySelector('.section-title');
+                const descEl = section.querySelector('.section-desc');
+                if (hasVisible || !query) {
+                    box.classList.remove('empty');
+                    if (titleEl) titleEl.classList.remove('hidden');
+                    if (descEl) descEl.classList.remove('hidden');
+                } else {
+                    box.classList.add('empty');
+                    if (titleEl) titleEl.classList.add('hidden');
+                    if (descEl) descEl.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+    <div class="float-tools">
+        <button id="back-to-top" class="float-btn" type="button" aria-label="回到顶部" title="回到顶部">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+        <button id="theme-toggle" class="float-btn theme-toggle-btn" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+    </div>
+    <script src="js/bg-particles.js?v=1790917320"></script>
+    <script src="js/float-tools.js?v=1790917320"></script>
+
+</body>
+</html>

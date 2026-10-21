@@ -1,0 +1,453 @@
+/* 文章内容样式（Typora 风格）：正文排版、代码块、表格、导航按钮 */
+
+.article-content {
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "思源黑体", "Noto Sans SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #d8dde5;
+    /* 半透明卡片背景，让背后的粒子连线特效隐约透出 */
+    background: rgba(31, 35, 43, 0.6);
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 48px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.45);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* 标题自动编号（由 article.js 写入，序号后已带一个空格） */
+.article-content .heading-num {
+    margin-right: 0.15em;
+}
+
+.article-content > *:first-child {
+    margin-top: 0;
+}
+
+/* 标题 */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+    font-weight: 600;
+    line-height: 1.4;
+    color: #eef2f8;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+}
+
+.article-content h1 {
+    font-size: 2em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #2c313b;
+}
+
+.article-content h2 {
+    font-size: 1.6em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #2c313b;
+}
+
+.article-content h3 {
+    font-size: 1.35em;
+}
+
+.article-content h4 {
+    font-size: 1.2em;
+}
+
+.article-content h5 {
+    font-size: 1.1em;
+}
+
+.article-content h6 {
+    font-size: 1em;
+    color: #98a1ad;
+}
+
+/* 段落 */
+.article-content p {
+    margin-top: 0;
+    margin-bottom: 0.8em;
+    color: #d8dde5;
+}
+
+/* 链接 */
+.article-content a {
+    color: #4da3e0;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.article-content a:hover {
+    color: #7cc0f0;
+    border-bottom-color: #7cc0f0;
+}
+
+/* 行内代码 */
+.article-content code {
+    font-family: "JetBrains Mono", Consolas, Menlo, Monaco, "Microsoft YaHei", monospace;
+    font-size: 0.88em;
+    background-color: #262c36;
+    color: #e06c75;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #343b47;
+    word-break: break-word;
+}
+
+/* 代码块（行号栏与代码同在一个滚动容器内，见 .code-block pre） */
+.article-content pre {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 20px 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.2em 0;
+    font-family: "JetBrains Mono", Consolas, Menlo, Monaco, "Microsoft YaHei", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 全局 * 选择器会给 pre 内的 span/a 指定中文字体，这里强制继承等宽字体 */
+.article-content pre * {
+    font-family: inherit;
+}
+
+.article-content pre code {
+    display: block;
+    background: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* pandoc 生成的行号锚点不套用链接样式 */
+.article-content pre a {
+    color: inherit;
+    border-bottom: none;
+}
+
+.article-content pre a:hover {
+    color: inherit;
+}
+
+/* 代码块语法高亮（pandoc skylighting token，One Dark 配色） */
+.article-content pre .kw,   /* 关键字 */
+.article-content pre .cf,   /* 流程控制 */
+.article-content pre .pp {  /* 预处理指令 */
+    color: #c678dd;
+}
+
+.article-content pre .dt,   /* 数据类型 */
+.article-content pre .bu {  /* 内置标识符 */
+    color: #e5c07b;
+}
+
+.article-content pre .st,   /* 字符串 */
+.article-content pre .ss,   /* 特殊字符串 */
+.article-content pre .vs,   /* 原始字符串 */
+.article-content pre .ch {  /* 字符 */
+    color: #98c379;
+}
+
+.article-content pre .dv,   /* 整数 */
+.article-content pre .bn,   /* 其他进制 */
+.article-content pre .fl,   /* 浮点数 */
+.article-content pre .at {  /* 属性 */
+    color: #d19a66;
+}
+
+.article-content pre .fu,   /* 函数名 */
+.article-content pre .ex {  /* 扩展 */
+    color: #61afef;
+}
+
+.article-content pre .im,   /* 导入 */
+.article-content pre .sc {  /* 转义字符 */
+    color: #56b6c2;
+}
+
+.article-content pre .va {  /* 变量 */
+    color: #e06c75;
+}
+
+.article-content pre .co,   /* 注释 */
+.article-content pre .an,   /* 注解 */
+.article-content pre .cv,   /* 注释中的变量 */
+.article-content pre .do,   /* 文档注释 */
+.article-content pre .in {  /* 注释信息 */
+    color: #9198a3;
+    font-style: italic;
+}
+
+.article-content pre .wa {  /* 警告 */
+    color: #e5c07b;
+}
+
+.article-content pre .er {  /* 错误 */
+    color: #e06c75;
+    text-decoration: underline;
+}
+
+/* 代码块容器、左上角语言标签、左侧行号栏与右上角复制按钮 */
+.article-content .code-block {
+    position: relative;
+    margin: 1.2em 0;
+}
+
+.article-content .code-block pre {
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    border-radius: 8px;
+}
+
+/* 行号栏：sticky 钉在滚动区左侧，不随代码横向滚动 */
+.article-content .line-numbers {
+    position: sticky;
+    left: 0;
+    flex: 0 0 auto;
+    background-color: #282c34;
+    color: #6b7482;
+    font-family: "JetBrains Mono", Consolas, Menlo, Monaco, "Microsoft YaHei", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px 10px 20px 14px;
+    text-align: right;
+    white-space: pre;
+    user-select: none;
+}
+
+.article-content .code-lines {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 20px 88px 20px 16px;
+}
+
+.article-content .lang-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: "JetBrains Mono", Consolas, Menlo, Monaco, "Microsoft YaHei", monospace;
+    color: #9198a3;
+    background-color: #3a3f4b;
+    border: 1px solid #4b5162;
+    border-radius: 5px;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* 有语言标签时代码与行号一并下移（标签占据顶部空间） */
+.article-content .code-block .lang-label + pre .code-lines,
+.article-content .line-numbers.under-label {
+    padding-top: 48px;
+}
+
+.article-content .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #abb2bf;
+    background-color: #3a3f4b;
+    border: 1px solid #4b5162;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.article-content .copy-btn:hover {
+    color: #ffffff;
+    background-color: #4b5162;
+}
+
+.article-content .copy-btn.copied {
+    color: #282c34;
+    background-color: #98c379;
+    border-color: #98c379;
+}
+
+/* 引用块 */
+.article-content blockquote {
+    border-left: 4px solid #2f6a9a;
+    background-color: #1a1e26;
+    padding: 12px 20px;
+    margin: 1.2em 0;
+    color: #9aa4b0;
+    border-radius: 0 4px 4px 0;
+}
+
+.article-content blockquote p {
+    color: #9aa4b0;
+    margin-bottom: 0.4em;
+}
+
+.article-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* 表格 */
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2em 0;
+    font-size: 0.95em;
+    display: block;
+    overflow-x: auto;
+}
+
+.article-content table th,
+.article-content table td {
+    border: 1px solid #2c313b;
+    padding: 10px 16px;
+    text-align: left;
+}
+
+.article-content table th {
+    background-color: #262c38;
+    font-weight: 600;
+    color: #eef2f8;
+}
+
+.article-content table tr:nth-child(even) {
+    background-color: #1b1f27;
+}
+
+.article-content table tr:hover {
+    background-color: rgba(77, 163, 224, 0.08);
+}
+
+/* 数学公式：宽公式（矩阵、长推导）在自身容器内横向滚动，避免撑破页面宽度 */
+.article-content .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.article-content .katex-display > .katex {
+    white-space: nowrap;
+}
+
+/* 行内公式过宽时（如行内矩阵）自身横向滚动，不撑破页面：
+   内边距把 KaTeX 超出盒子的上下内容纳入裁剪区（否则会被裁掉），负外边距抵消多占的行距。
+   注意：overflow 非 visible 会让 inline-block 以底边为基线，导致公式整体上移，
+   用 vertical-align 把基线压回原位（实测偏移约 0.36em，与 KaTeX 字号成比例） */
+.article-content .katex {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 3px;
+    margin: -10px -3px;
+    vertical-align: -0.36em;
+}
+
+.article-content .katex-display > .katex {
+    vertical-align: baseline;
+}
+
+/* 表格单元格内的行内公式不套用横向滚动 hack：
+   表格自身已是 overflow-x:auto 容器，单元格再出滚动条会挤出行高、显示成一条灰杠 */
+.article-content table .katex {
+    max-width: none;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    vertical-align: baseline;
+}
+
+/* 图片 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.2em auto;
+    border-radius: 4px;
+}
+
+/* 白底/浅色文字图片自动适配暗色主题（由 img-theme.js 采样边缘亮度后打标）：
+   轻微不足 1 的反色让纯白底变成接近页面底色的深灰，色相经 hue-rotate 补偿回接近原色。
+   仅暗色主题生效，浅色主题下白底图保持原样 */
+html:not([data-theme="light"]) .article-content img.img-adapt {
+    filter: invert(0.92) hue-rotate(180deg);
+}
+
+/* 列表 */
+.article-content ul,
+.article-content ol {
+    margin: 0.8em 0;
+    padding-left: 2em;
+}
+
+.article-content li {
+    margin-bottom: 0.3em;
+    color: #d8dde5;
+}
+
+.article-content li > p {
+    margin-bottom: 0.4em;
+}
+
+/* 分割线 */
+.article-content hr {
+    border: none;
+    border-top: 1px solid #2c313b;
+    margin: 2em 0;
+}
+
+/* 高亮标记 */
+.article-content mark {
+    background-color: rgba(255, 205, 92, 0.24);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #ffd479;
+}
+
+/* 导航按钮 */
+.article-nav {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-nav {
+    flex: 1;
+    text-align: center;
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-nav:first-child {
+    margin-right: auto;
+}
+
+.btn-nav:last-child {
+    margin-left: auto;
+}
+
+.btn-disabled {
+    opacity: 0;
+    pointer-events: none;
+}

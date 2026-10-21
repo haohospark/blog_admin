@@ -1,0 +1,129 @@
+/* 页面专属样式：关于我、相册、留言板表单 */
+
+/* 关于我页面样式 */
+.about-info {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: #1f232b;
+    border: 1px solid #2c313b;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.45);
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #4da3e0;
+    transition: transform 0.5s ease;
+}
+
+.avatar:hover {
+    transform: rotate(360deg);
+}
+
+.about-text h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #eef2f8;
+}
+
+.about-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #98a1ad;
+    margin-bottom: 15px;
+}
+
+/* 相册页面样式 */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* 白底截图类相册图在暗色主题下自动反色适配（img-theme.js 打标），浅色主题不生效 */
+html:not([data-theme="light"]) .gallery-img.img-adapt {
+    filter: invert(0.92) hue-rotate(180deg);
+}
+
+/* 留言板样式 */
+.message-form {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #1f232b;
+    border: 1px solid #2c313b;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.45);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #eef2f8;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #15171c;
+    color: #d8dde5;
+    border: 1px solid #2c313b;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #626b78;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #4da3e0;
+    outline: none;
+}
+
+.submit-btn {
+    /* 与 .btn 一致的暗色半透明主色风格 */
+    background-color: rgba(77, 163, 224, 0.14);
+    border: 1px solid rgba(77, 163, 224, 0.45);
+    color: #8ecdf5;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: rgba(77, 163, 224, 0.3);
+    border-color: #4da3e0;
+    color: #d6ecfc;
+    transform: scale(1.05);
+}
