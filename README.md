@@ -1,5 +1,19 @@
 # 个人博客网站
 
+## 部署过程
+
+若想要部署，首先需要准备以下环境
+
+1. Java环境
+
+   你可以执行：`java --version` 来判断当前电脑是否具备 Java 环境
+
+2. pandoc环境
+
+   pandoc 是一款可以将 .md 文件转换为网页的工具
+
+   这需要你去下载 pandoc，并把其添加到环境变量中，可以执行 `pandoc --version` 来判断是否具备 pandoc 环境
+
 ## 管理后台
 
 `blog_admin/` 是一个博客管理后台程序，基于 Spring Boot 3.5（Java 17）
