@@ -1,4 +1,4 @@
-# 个人博客网站
+# 博客网站管理工具
 
 ## 部署过程
 
@@ -17,11 +17,11 @@
 准备好环境后，就可以运行启动脚本，正常访问了：
 
 1. `http://localhost:5050/` ：本地的博客主页
-2. `http://localhost:5050/admin`：本地的模块管理界面（用户名：`user`，密码：123）
+2. `http://localhost:5050/admin`：本地的博客管理界面（用户名：`user`，密码：123）
 
-## 管理后台
+## 项目介绍
 
-`blog_admin/` 是一个博客管理后台程序，基于 Spring Boot 3.5（Java 17）
+`blog_admin` 是一个博客管理工具，基于 Spring Boot 3.5（Java 17）
 
 前台为静态生成，数据以文件（JSON + Markdown）存储
 
@@ -98,6 +98,6 @@ Controller 不包含业务逻辑，仅做请求→服务→响应的转发与编
   未配置 `blog.data-dir` 时，jar 会自动定位到自身所在目录（fat jar 内 CodeSource 为
   `jar:nested:` 虚拟路径，需解析出外层 jar 的真实路径），因此从任意工作目录启动均可。
 
-- 配置项：全部在 `application.yml`（`server.port`、`blog.admin-username`、`blog.admin-password`），账号默认 `user` / `123`
+- 配置项：全部在 `application.yml`（`server.port`、`blog.admin-username`、`blog.admin-password`）
 
 本项目仅做本地演示，不包含服务器部署与同步功能
