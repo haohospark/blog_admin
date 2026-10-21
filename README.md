@@ -14,6 +14,11 @@
 
    这需要你去下载 pandoc，并把其添加到环境变量中，可以执行 `pandoc --version` 来判断是否具备 pandoc 环境
 
+准备好环境后，就可以运行启动脚本，正常访问了：
+
+1. `http://localhost:5050/` ：本地的博客主页
+2. `http://localhost:5050/admin`：本地的模块管理界面（用户名：`user`，密码：123）
+
 ## 管理后台
 
 `blog_admin/` 是一个博客管理后台程序，基于 Spring Boot 3.5（Java 17）
